@@ -41,7 +41,8 @@ TBD: show final setup and connections.
 
 ## Software
 
-Following the steps outlined in [Installing Ubuntu 19.10 on Raspberry Pi](http://sirchia.cloud/2019/11/installing-ubuntu-19.10-on-raspberry-pi/). I'm using macOS as the host operating system.
+Following the steps outlined in [Installing Ubuntu 19.10 on Raspberry Pi](http://sirchia.cloud/2019/11/installing-ubuntu-19.10-on-raspberry-pi/).
+I'm using macOS as the host operating system.
 
 ### 1. Preparing the SD cards
 
@@ -98,7 +99,7 @@ and get assigned dynamic IP addresses via DHCP, in addition to that, for the wir
 networking. We will use the static IPs for the Kubernetes setup.
 
 For this to work, I removed all files from `/etc/netplan/` and created a new file
-called [my-net-config.yaml](my-net-config.yaml) with the following info
+called [my-net-config.yaml](software/my-net-config.yaml) with the following info
 (note: here shown for the future control plane node with IP `192.168.1.42`, that 
 value has to be changed for each RPI): 
 
