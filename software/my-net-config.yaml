@@ -1,0 +1,15 @@
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: false
+      addresses: [192.168.1.XX/24]
+      gateway4: 192.168.1.254
+      nameservers:
+        addresses: [8.8.8.8, 4.4.4.4]
+  wifis:
+    wlan0:
+      dhcp4: true
+      access-points:
+        "MY-NETWORK-SSID":
+          password: "MY-NETWORK-PASSWORD"
