@@ -1,5 +1,18 @@
 # Kubernetes cluster on Raspberry Pi 4b with 64-bit OS from scratch
 
+ToC:
+
+1. [Hardware](#hardware)
+   1. [Bill of materials](#bill-of-materials)
+   2. [Final setup](#final-setup)
+2. [Software](#software)
+   1. [Preparing the SD cards](#1-preparing-the-sd-cards)
+   2. [Install the Operating System on the SD cards](#2-install-the-operating-system-on-the-sd-cards)
+   3. [Initial setup of the Operating System](#3-initial-setup-of-the-operating-system)
+   4. [Configure SSH](#4-configure-ssh)
+   5. [Install Kubernetes](#5-install-kubernetes)
+3. [References](#references)
+
 ## Hardware
 
 ### Bill of materials
@@ -175,7 +188,7 @@ $ export AGENT_IP=192.168.1.43
 $ k3sup join --ip $AGENT_IP --server-ip $SERVER_IP --user pi
 ```
 
-### References
+## References
 
 ### Articles
 
