@@ -98,10 +98,7 @@ IP addresses `192.168.1.42` to `192.168.1.44` when connected via the switch (Eth
 and get assigned dynamic IP addresses via DHCP, in addition to that, for the wireless
 networking. We will use the static IPs for the Kubernetes setup.
 
-For this to work, I removed all files from `/etc/netplan/` and created a new file
-called [my-net-config.yaml](software/my-net-config.yaml) with the following info
-(note: here shown for the future control plane node with IP `192.168.1.42`, that 
-value has to be changed for each RPI): 
+For this to work, remove all files from `/etc/netplan/` and create a new file called [my-net-config.yaml](software/my-net-config.yaml) with the following info (note: here shown for the future control plane node with IP `192.168.1.42`, that value has to be changed for each RPI): 
 
 ```yaml
 network:
@@ -121,7 +118,7 @@ network:
           password: "MY-NETWORK-PASSWORD"
 ```
 
-Note: the value for `gateway4` is your router or default gateway.
+Note: the value for `gateway4` is your router or default gateway and for your convenience you can get the template via `curl -L https://301.sh/rpi-net`.
 
 To apply the changes, run `sudo netplan --debug try`, then `sudo netplan --debug generate`,
 `sudo netplan --debug apply`, and `reboot` for good measures. Once the RPI comes
