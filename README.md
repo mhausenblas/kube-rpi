@@ -185,20 +185,38 @@ and from then on, only the SSH-key-based login is possible.
 
 ### 5. Install Kubernetes
 
-Get `k3up`:
+Get `k3sup` into place:
 
 ```sh
-$curl -SLsf https://get.k3sup.dev | sudo sh
+$ curl -SLsf https://get.k3sup.dev | sudo sh
 aarch64
-...
+Downloading package https://github.com/alexellis/k3sup/releases/download/0.7.0/k3sup-arm64 as /tmp/k3sup-arm64
+Download complete.
+
+Running with sufficient permissions to attempt to move k3sup to /usr/local/bin
+New version of k3sup installed to /usr/local/bin
+ _    _____
+| | _|___ / ___ _   _ _ __
+| |/ / |_ \/ __| | | | '_ \
+|   < ___) \__ \ |_| | |_) |
+|_|\_\____/|___/\__,_| .__/
+                     |_|
+Version: 0.7.0
+Git Commit: 4f2b04cb317ce6840c8151fed56e0114979129b8
 ```
 
 Create a new cluster by provisioning the control plane:
 
 ```sh
-$ export SERVER_IP=192.168.1.42
+export SERVER_IP=192.168.1.42
 
-$ k3sup install --ip $SERVER_IP --user ubuntu
+k3sup install --ip $SERVER_IP --local
+
+export KUBECONFIG=`pwd`/kubeconfig
+
+$ ubuntu@kube-rpi-cp:~$ kubectl config get-contexts
+CURRENT   NAME      CLUSTER   AUTHINFO   NAMESPACE
+*         default   default   default
 ```
 
 Join a worker node to the cluster:
@@ -207,7 +225,7 @@ Join a worker node to the cluster:
 $ export SERVER_IP=192.168.1.42
 $ export AGENT_IP=192.168.1.43
 
-$ k3sup join --ip $AGENT_IP --server-ip $SERVER_IP --user pi
+$ k3sup join --ip $AGENT_IP --server-ip $SERVER_IP --local
 ```
 
 ## References
