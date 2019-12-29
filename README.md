@@ -179,3 +179,21 @@ $ export AGENT_IP=192.168.1.43
 $ k3sup join --ip $AGENT_IP --server-ip $SERVER_IP --user pi
 ```
 
+### References
+
+### Articles
+
+In the process of preparing this walkthrough, I've perused the following articles:
+
+- [Kubernetes On 64 Bit OS Raspberry Pi 4](http://sirchia.cloud/2019/12/kubernetes-on-64-bit-os-raspberry-pi-4/), 12/2019, by Robert Sirchia
+- [Kubernetes Homelab with Raspberry Pi and k3sup](https://blog.alexellis.io/raspberry-pi-homelab-with-k3sup/), 10/2019, by Alex Ellis
+- [How I made a Kubernetes cluster with five Raspberry Pis](https://www.zenko.io/blog/how-i-made-a-kubernetes-cluster-with-a-couple-of-raspberry-pis/), 05/2019, by Salim Salaues
+- [Building a hybrid x86–64 and ARM Kubernetes Cluster](https://medium.com/@carlosedp/building-a-hybrid-x86-64-and-arm-kubernetes-cluster-e7f94ff6e51d), 01/2019, by Carlos Eduardo
+
+### Docs
+
+The following docs are useful:
+
+- RPI docs: [Setting up your Raspberry Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up)
+- Ubuntu docs: [SSH](https://help.ubuntu.com/community/SSH/)
+- K3s docs: [Installation](https://rancher.com/docs/k3s/latest/en/installation/)
