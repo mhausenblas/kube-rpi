@@ -161,7 +161,7 @@ ubuntu@192.168.1.42's password:
 ...
 ```
 
-As you can see from above, this requires a password. Let's do an SSH-only login.
+As you can see from above, this requires a password. Let's do an SSH-key-based-only login.
 
 For this, we first create an SSH key pair for each RPI and distribute the public keys:
 
@@ -180,8 +180,8 @@ mv $RPI_SSH_KEY_TARGET* ~/.ssh/
 ```
 
 Now, following the [official instructions](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring)
-we set `PasswordAuthentication no` in `/etc/ssh/sshd_config` and from then on, only
-the SSH-key-based login is possible.
+we set `PasswordAuthentication no` in `/etc/ssh/sshd_config`, apply using `sudo systemctl restart ssh`
+and from then on, only the SSH-key-based login is possible.
 
 ### 5. Install Kubernetes
 
@@ -228,3 +228,4 @@ The following docs are useful:
 - RPI docs: [Setting up your Raspberry Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up)
 - Ubuntu docs: [SSH](https://help.ubuntu.com/community/SSH/)
 - K3s docs: [Installation](https://rancher.com/docs/k3s/latest/en/installation/)
+- [k3sup.dev](https://github.com/alexellis/k3sup)
