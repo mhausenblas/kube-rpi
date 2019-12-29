@@ -153,15 +153,35 @@ At this point in time, you should be able to SSH into your RPIs like so:
 
 ```sh
 $ ssh ubuntu@192.168.1.42
+The authenticity of host 192.168.1.42 can't be established.
+ECDSA key fingerprint is SHA256:sozuirlqXh88YtbXxLDYL/DCCBzf2oSFGxOItwjs1so.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.1.42' (ECDSA) to the list of known hosts.
+ubuntu@192.168.1.42's password:
 ...
-ubuntu@ubuntu:~$
 ```
 
-Following [instructions](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring)
+As you can see from above, this requires a password. Let's do an SSH-only login.
 
-Create SSH key, copy to USB.
+For this, we first create an SSH key pair for each RPI and distribute the public keys:
 
-In `/etc/ssh/sshd_config` set `PasswordAuthentication no`.
+```sh
+# set target RPI name, for example "kube-rpi-cp" or "kube-rpi-node0":
+RPI_SSH_KEY_TARGET=kube-rpi-node0
+
+# generate SSH key pair on host machine:
+ssh-keygen -b 2048 -t rsa -f $RPI_SSH_KEY_TARGET -q -N ""
+
+# copy over public key to RPI:
+ssh-copy-id -i $RPI_SSH_KEY_TARGET.pub ubuntu@$RPI_SSH_KEY_TARGET
+
+# move RPI key pair to our local key repo:
+mv $RPI_SSH_KEY_TARGET* ~/.ssh/
+```
+
+Now, following the [official instructions](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring)
+we set `PasswordAuthentication no` in `/etc/ssh/sshd_config` and from then on, only
+the SSH-key-based login is possible.
 
 ### 5. Install Kubernetes
 
