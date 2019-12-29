@@ -41,8 +41,7 @@ TBD: show final setup and connections.
 
 ## Software
 
-Following the steps outlined in [Installing Ubuntu 19.10 on Raspberry Pi](http://sirchia.cloud/2019/11/installing-ubuntu-19.10-on-raspberry-pi/).
-I'm using macOS as the host operating system.
+In the following we walk through how to set up the RPI operating system (OS) and Kubernetes. Note that I'm using macOS as the host operating system, that is, where I prepare the SD cards and install the RPI OS (steps 1. and 2. below), so you may end up using different tools if you're carrying out these steps in a different environment, say Linux or Windows.
 
 ### 1. Preparing the SD cards
 
