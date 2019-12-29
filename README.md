@@ -1,7 +1,5 @@
 # Kubernetes on Raspberry Pi 4b with 64-bit OS from scratch
 
-ToC:
-
 [Hardware](#hardware)
   1. [Bill of materials](#bill-of-materials)
   1. [Final setup](#final-setup)
@@ -14,6 +12,8 @@ ToC:
   1. [Install Kubernetes](#5-install-kubernetes)
 
 [References](#references)
+
+---
 
 ## Hardware
 
