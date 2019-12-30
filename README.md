@@ -10,7 +10,8 @@
   1. [Initial setup of the Operating System](#3-initial-setup-of-the-operating-system)
   1. [Configure SSH](#4-configure-ssh)
   1. [Install Kubernetes](#5-install-kubernetes)
-
+  1. [Install Helm](#6-install-helm)
+   
 [References](#references)
 
 ---
@@ -240,8 +241,7 @@ ubuntu@kube-rpi-node0:~$ k3s_token=XXX
 ubuntu@kube-rpi-node0:~$ curl -sfL https://get.k3s.io | K3S_URL=$k3s_server K3S_TOKEN=$k3s_token sh -
 ```
 
-Now we check on the control plane node (note: this command is issued from the host system, 
-in my case the macOS-based one):
+Time to check on the control plane node (note: this command is issued from the host system, in my case the macOS-based one):
 
 ```sh
 $ ssh ubuntu@kube-rpi-cp kubectl get no -o wide
@@ -249,6 +249,57 @@ NAME             STATUS   ROLES    AGE     VERSION         INTERNAL-IP    EXTERN
 kube-rpi-node0   Ready    <none>   3m48s   v1.16.3-k3s.2   192.168.1.43   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
 kube-rpi-cp      Ready    master   17m     v1.16.3-k3s.2   192.168.1.42   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
 ```
+
+Now that we have Kubernetes up and running, we can move on to the app-level.
+
+BTW, don't worry about rebooting the RPIs. I ususally use `sudo shutdown now` on each of them to cleanly exit, worker nodes first, control plane last.
+
+### 6. Install Helm
+
+First we need to [get Helm and install it](https://helm.sh/docs/intro/install/):
+
+```sh
+# define what Helm version and where to install:
+export HELM_VERSION=v3.0.2
+export HELM_INSTALL_DIR=/usr/local/bin
+
+# download the binary and get into place:
+wget https://get.helm.sh/helm-$HELM_VERSION-linux-arm64.tar.gz
+tar xvzf helm-$HELM_VERSION-linux-arm64.tar.gz
+sudo mv linux-arm64/helm $HELM_INSTALL_DIR/helm
+
+# clean up:
+rm -rf linux-arm64 && rm helm-$HELM_VERSION-linux-arm64.tar.gz
+```
+
+Next, let's add some repositories:
+
+```sh
+# add the official stable charts repo:
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+# add another repo:
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+Now we can install apps, for example, the Kube dashboard:
+
+```sh
+# this is necessary to address https://github.com/rancher/k3s/issues/1126 for now:
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+# make sure that we install the dashboard in the kube-system namespace:
+sudo kubectl config set-context --current --namespace=kube-system
+
+# install the dashboard, note how we explicitly ask for the Arm version:
+ubuntu@kube-rpi-cp:~$ helm install kdash stable/kubernetes-dashboard \
+                           --set=image.repository=k8s.gcr.io/kubernetes-dashboard-arm64
+
+# wait until you see the pod in 'Running' state:
+ubuntu@kube-rpi-cp:~$ watch kubectl get pods -l "app=kubernetes-dashboard,release=kdash"
+```
+
+
 
 ## References
 
