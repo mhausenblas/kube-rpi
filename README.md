@@ -332,8 +332,8 @@ ubuntu@kube-rpi-cp:~$ kubectl get secret \
 Blah1234...
 ```
 
-Now you access the dashboard via [https://localhost:10443](https://localhost:10443/)
-and using the token retrieved from the previous step:
+Now you can access the Kubernetes dashboard via [https://localhost:10443](https://localhost:10443/),
+using the token retrieved from the previous step:
 
 ![Kubernetes dashboard](software/img/kdash.png)
 
