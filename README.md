@@ -299,11 +299,45 @@ ubuntu@kube-rpi-cp:~$ helm install kdash stable/kubernetes-dashboard \
 ubuntu@kube-rpi-cp:~$ watch kubectl get pods -l "app=kubernetes-dashboard,release=kdash"
 ```
 
-If you want to access the RPI Kubernetes cluster from your host machine, do the following:
+Next, we want to make sure we can access the RPI Kubernetes cluster from the
+host machine, so that we can forward traffic and access the dashboard directly
+in our usual environment.
+
+To achieve this, do the following:
 
 1. Copy the content of `/etc/rancher/k3s/k3s.yaml` and paste it into a file on your host machine, for example, `kube-rpi-config.yaml`
 1. Change the line `server: https://127.0.0.1:6443` to `server: https://kube-rpi-cp:6443` (or `server: https://192.168.1.42:6443` if you haven't updated your `/etc/hosts` file ;)
 1. Now you can access the cluster like so: `kubectl --kubeconfig=./kube-rpi-config.yaml get nodes`
+
+We can set up port forwarding and access the Kube dashboard of our RPI cluster
+on our host machine (remember to execute this on your machine, not one of the RPIs):
+
+```sh
+$ kubectl --kubeconfig=./kube-rpi-config.yaml port-forward \
+          --namespace kube-system \
+          svc/kdash-kubernetes-dashboard 10443:443
+Forwarding from 127.0.0.1:10443 -> 8443
+Forwarding from [::1]:10443 -> 8443
+Handling connection for 10443
+...
+```
+
+Before we can access the dashboard, get the token from the control plane RPI like so: 
+
+```sh
+ubuntu@kube-rpi-cp:~$ kubectl get secret \
+                      $(kubectl get sa kdash-kubernetes-dashboard -o jsonpath="{.secrets[0].name}") \
+                      -o jsonpath="{.data.token}" | \
+                      base64
+Blah1234...
+```
+
+Now you access the dashboard via [https://localhost:10443](https://localhost:10443/)
+and using the token retrieved from the previous step:
+
+![Kubernetes dashboard](software/img/kdash.png)
+
+That's it for now.
 
 ## References
 
