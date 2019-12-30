@@ -118,11 +118,13 @@ sudo apt upgrade
 ```
 
 Next, we set up the network in a way that the three RPIs are using statically assigned
-IP addresses `192.168.1.42` to `192.168.1.44` when connected via the switch (Ethernet cables)
+IP addresses `192.168.0.42` to `192.168.0.44` when connected via the switch (Ethernet cables)
 and get assigned dynamic IP addresses via DHCP, in addition to that, for the wireless
 networking. We will use the static IPs for the Kubernetes setup.
 
-For this to work, remove all files from `/etc/netplan/` and create a new file called [my-net-config.yaml](software/my-net-config.yaml) with the following info (note: here shown for the future control plane node with IP `192.168.1.42`, that value has to be changed for each RPI): 
+For this to work, remove all files from `/etc/netplan/` and create a new file called 
+[my-net-config.yaml](software/my-net-config.yaml) with the following info 
+(note: here shown for the future control plane node with IP `192.168.0.42`, that value has to be changed for each RPI): 
 
 ```yaml
 network:
@@ -130,8 +132,8 @@ network:
   ethernets:
     eth0:
       dhcp4: false
-      addresses: [192.168.1.42/24]
-      gateway4: 192.168.1.254
+      addresses: [192.168.0.42/24]
+      gateway4: 192.168.0.254
       nameservers:
         addresses: [8.8.8.8, 4.4.4.4]
   wifis:
@@ -164,12 +166,12 @@ Now we have the basic OS-level config in place, let's make it a little more secu
 At this point in time, you should be able to SSH into your RPIs like so:
 
 ```sh
-$ ssh ubuntu@192.168.1.42
-The authenticity of host 192.168.1.42 can't be established.
+$ ssh ubuntu@192.168.0.42
+The authenticity of host 192.168.0.42 can't be established.
 ECDSA key fingerprint is SHA256:sozuirlqXh88YtbXxLDYL/DCCBzf2oSFGxOItwjs1so.
 Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added '192.168.1.42' (ECDSA) to the list of known hosts.
-ubuntu@192.168.1.42's password:
+Warning: Permanently added '192.168.0.42' (ECDSA) to the list of known hosts.
+ubuntu@192.168.0.42's password:
 ...
 ```
 
@@ -224,7 +226,7 @@ Server Version: version.Info{Major:"1", Minor:"16", GitVersion:"v1.16.3-k3s.2", 
 
 ubuntu@kube-rpi-cp:~$ kubectl get no -o wide
 NAME          STATUS   ROLES    AGE     VERSION         INTERNAL-IP    EXTERNAL-IP   OS-IMAGE       KERNEL-VERSION      CONTAINER-RUNTIME
-kube-rpi-cp   Ready    master   3m10s   v1.16.3-k3s.2   192.168.1.42   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
+kube-rpi-cp   Ready    master   3m10s   v1.16.3-k3s.2   192.168.0.42   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
 ```
 
 Now we can join worker nodes to the cluster. Note that the value for `k3s_token` comes
@@ -235,7 +237,7 @@ To join a worker node, do:
 ```sh
 $ ssh ubuntu@kube-rpi-node0
 
-ubuntu@kube-rpi-node0:~$ k3s_server="https://192.168.1.42:6443"
+ubuntu@kube-rpi-node0:~$ k3s_server="https://192.168.0.42:6443"
 ubuntu@kube-rpi-node0:~$ k3s_token=XXX
 
 ubuntu@kube-rpi-node0:~$ curl -sfL https://get.k3s.io | K3S_URL=$k3s_server K3S_TOKEN=$k3s_token sh -
@@ -246,8 +248,8 @@ Time to check on the control plane node (note: this command is issued from the h
 ```sh
 $ ssh ubuntu@kube-rpi-cp kubectl get no -o wide
 NAME             STATUS   ROLES    AGE     VERSION         INTERNAL-IP    EXTERNAL-IP   OS-IMAGE       KERNEL-VERSION      CONTAINER-RUNTIME
-kube-rpi-node0   Ready    <none>   3m48s   v1.16.3-k3s.2   192.168.1.43   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
-kube-rpi-cp      Ready    master   17m     v1.16.3-k3s.2   192.168.1.42   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
+kube-rpi-node0   Ready    <none>   3m48s   v1.16.3-k3s.2   192.168.0.43   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
+kube-rpi-cp      Ready    master   17m     v1.16.3-k3s.2   192.168.0.42   <none>        Ubuntu 19.10   5.3.0-1014-raspi2   containerd://1.3.0-k3s.5
 ```
 
 Now that we have Kubernetes up and running, we can move on to the app-level.
@@ -306,7 +308,7 @@ in our usual environment.
 To achieve this, do the following:
 
 1. Copy the content of `/etc/rancher/k3s/k3s.yaml` and paste it into a file on your host machine, for example, `kube-rpi-config.yaml`
-1. Change the line `server: https://127.0.0.1:6443` to `server: https://kube-rpi-cp:6443` (or `server: https://192.168.1.42:6443` if you haven't updated your `/etc/hosts` file ;)
+1. Change the line `server: https://127.0.0.1:6443` to `server: https://kube-rpi-cp:6443` (or `server: https://192.168.0.42:6443` if you haven't updated your `/etc/hosts` file ;)
 1. Now you can access the cluster like so: `kubectl --kubeconfig=./kube-rpi-config.yaml get nodes`
 
 We can set up port forwarding and access the Kube dashboard of our RPI cluster
