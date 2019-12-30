@@ -299,7 +299,11 @@ ubuntu@kube-rpi-cp:~$ helm install kdash stable/kubernetes-dashboard \
 ubuntu@kube-rpi-cp:~$ watch kubectl get pods -l "app=kubernetes-dashboard,release=kdash"
 ```
 
+If you want to access the RPI Kubernetes cluster from your host machine, do the following:
 
+1. Copy the content of `/etc/rancher/k3s/k3s.yaml` and paste it into a file on your host machine, for example, `kube-rpi-config.yaml`
+1. Change the line `server: https://127.0.0.1:6443` to `server: https://kube-rpi-cp:6443` (or `server: https://192.168.1.42:6443` if you haven't updated your `/etc/hosts` file ;)
+1. Now you can access the cluster like so: `kubectl --kubeconfig=./kube-rpi-config.yaml get nodes`
 
 ## References
 
