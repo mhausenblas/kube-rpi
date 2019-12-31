@@ -204,7 +204,7 @@ Create a new cluster by provisioning the control plane:
 ```sh
 $ ssh ubuntu@kube-rpi-cp
 
-ubuntu@kube-rpi-cp:~$ curl -sfL https://get.k3s.io | sh -
+ubuntu@kube-rpi-cp:~$ curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 [INFO]  Finding latest release
 [INFO]  Using v1.0.1 as release
 [INFO]  Downloading hash https://github.com/rancher/k3s/releases/download/v1.0.1/sha256sum-arm64.txt
