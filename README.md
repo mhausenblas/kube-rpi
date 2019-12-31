@@ -40,16 +40,26 @@ as the power supply:
 ![power-supply-1.jpg](hardware/img/power-supply-1.jpg)
 
 [TP-Link TL-MR3020 V3 wireless router](https://www.amazon.co.uk/gp/product/B078GXZJHP/r):
-TBD.
+![router-0.jpg](hardware/img/router-0.jpg)
+![router-1.jpg](hardware/img/router-1.jpg)
 
 Also, you'll need the following items:
 
-- 3x [USB C to USB A cables](https://www.amazon.co.uk/gp/product/B07W12JK3J/) for powering the RPIs.
-- 3x [cat6 Ethernet cables](https://www.amazon.co.uk/gp/product/B01J8KFTB2/) for connecting the RPIs to the switch.
+Three [USB C to USB A cables](https://www.amazon.co.uk/gp/product/B07W12JK3J/) for powering the RPIs:
+
+![power-cables.jpg](hardware/img/power-cables.jpg)
+
+Three cat6 or cat5 [Ethernet cables](https://www.amazon.co.uk/gp/product/B01J8KFTB2/) for connecting the RPIs to the switch:
+
+![ethernet-cables.jpg](hardware/img/ethernet-cables.jpg)
+
+Finally, unless you don't want to configure via the Ethernet connections, you'll need:
+
 - 1x HDMI-on-micro-HDMI cable to connect a screen to an RPI.
 - 1x USB keyboard.
 
-Then follow steps to [assemble](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4) RPIs.
+Once you have everything in place, follow the steps to [assemble](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4) 
+the RPIs.
 
 ### Final setup
 
