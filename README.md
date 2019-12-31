@@ -312,7 +312,7 @@ To achieve this, do the following:
 1. Now you can access the cluster like so: `kubectl --kubeconfig=./kube-rpi-config.yaml get nodes`
 
 We can set up port forwarding and access the Kube dashboard of our RPI cluster
-on our host machine (remember to execute this on your machine, not one of the RPIs):
+on our host machine (remember to execute this on your host machine, not one of the RPIs):
 
 ```sh
 $ kubectl --kubeconfig=./kube-rpi-config.yaml port-forward \
@@ -323,6 +323,9 @@ Forwarding from [::1]:10443 -> 8443
 Handling connection for 10443
 ...
 ```
+
+Tip: for your convenience, you can do `alias kr='kubectl --kubeconfig=./kube-rpi-config.yaml'`
+on your host machine.
 
 Before we can access the dashboard, get the token from the control plane RPI like so: 
 
