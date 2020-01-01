@@ -63,7 +63,11 @@ the RPIs.
 
 ### Final setup
 
-TBD: show final setup and connections.
+The final setup of the RPIs and its connections is as follows:
+
+![final setup](hardware/img/final-setup.jpg)
+
+Note that it's a fully portable setup, that is, the only two external connections are the two cables for the Anker PowerPort and the switch.
 
 ## Software
 
